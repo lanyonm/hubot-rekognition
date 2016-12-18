@@ -1,0 +1,44 @@
+{
+  "name": "hubot-rekognition",
+  "description": "Give Hubot an image and it'll tell you what it sees in the image.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Mike Lanyon",
+    "email": "lanyonm@gmail.com",
+    "url": "https://github.com/lanyonm"
+  },
+  "license": "MIT",
+  "keywords": [
+    "aws",
+    "hubot",
+    "hubot-scripts",
+    "rekognition"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lanyonm/hubot-rekognition.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lanyonm/hubot-rekognition/issues"
+  },
+  "dependencies": {
+    "aws-sdk": "2.7.15",
+    "knox": "0.9.2",
+    "request": "2.79.0"
+  },
+  "peerDependencies": {
+    "hubot": "2.x"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*",
+    "coffee-script": "~1.6",
+    "sinon-chai": "*",
+    "sinon": "*",
+    "hubot": "2.x"
+  },
+  "main": "index.coffee",
+  "scripts": {
+    "test": "script/test"
+  }
+}
