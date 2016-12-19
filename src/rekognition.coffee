@@ -4,17 +4,14 @@
 # Dependencies:
 #   None
 #
-# Commands:
-#   @hubot What do you see? <picture>
-#
-# URLS:
-#   /hubot/rekognition
-#
 # Configuration:
 #   HUBOT_S3_BUCKET - the S3 bucket you'd like to upload images to
 #   HUBOT_AWS_ACCESS_KEY_ID - an AWS access key for S3 and Rekognition
 #   HUBOT_AWS_SECRET_ACCESS_KEY - a matching AWS secret key for S3 and Rekognition
 #   HUBOT_AWS_REGION - the AWS region you'd like to use. eg: 'us-west-2'
+#
+# Commands:
+#   @hubot What do you see? <picture>
 #
 # Notes:
 #   None
