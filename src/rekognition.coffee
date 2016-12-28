@@ -42,6 +42,7 @@ module.exports = (robot) ->
       robot.logger.debug "uploading this to s3: https://s3.amazonaws.com/uploads.hipchat.com/#{imageUrl}"
       s3FetchAndUpload msg, "https://s3.amazonaws.com/uploads.hipchat.com/#{imageUrl}", imageUrl.split('.')[1]
     else
+      robot.logger.warning 'doesn\'t look like an image was provided'
       msg.send 'Sorry - it doesn\'t look like you gave me an image to look at.'
 
   sendRobotResponse = (msg, title, image, link) ->
@@ -54,9 +55,13 @@ module.exports = (robot) ->
   s3FetchAndUpload = (msg, url, ext) ->
     requestHeaders =
       encoding: null
-    request url, requestHeaders, (err, res, body) ->
-      robot.logger.debug "Uploading file: #{body.length} bytes, content-type[#{res.headers['content-type']}]"
-      uploadToS3(msg, ext, body, body.length, res.headers['content-type'])
+    request.get url, requestHeaders, (err, res, body) ->
+      if err || res.statusCode != 200
+        robot.logger.warning "could not successfully fetch the image; res.statusCode: #{res.statusCode}, err: #{err}"
+        msg.send "Something bad happened... I was not able to successfully fetch the image..."
+      else
+        robot.logger.debug "Uploading file: #{body.length} bytes, content-type[#{res.headers['content-type']}]"
+        uploadToS3(msg, ext, body, body.length, res.headers['content-type'])
 
   callRekog = (msg, filename) ->
     rekogParams =
