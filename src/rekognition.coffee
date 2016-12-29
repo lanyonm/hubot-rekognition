@@ -34,15 +34,15 @@ module.exports = (robot) ->
     callRekog msg, 'father-and-son.jpg'
 
   robot.respond /What do you see?/i, (msg) ->
-    robot.logger.debug "Trying to figure out what's in this image..."
+    robot.logger.debug "hubot-rekognition: trying to figure out what's in this image..."
     if /uploads.hipchat.com/.test(msg.message.text)
       imageUrl = msg.message.text.split('https://s3.amazonaws.com/uploads.hipchat.com/')[1]
       if !imageUrl
         msg.send 'Sorry - I can\'t seem to parse that image url. :('
-      robot.logger.debug "uploading this to s3: https://s3.amazonaws.com/uploads.hipchat.com/#{imageUrl}"
+      robot.logger.debug "hubot-rekognition: uploading this to s3: https://s3.amazonaws.com/uploads.hipchat.com/#{imageUrl}"
       s3FetchAndUpload msg, "https://s3.amazonaws.com/uploads.hipchat.com/#{imageUrl}", imageUrl.split('.')[1]
     else
-      robot.logger.warning 'doesn\'t look like an image was provided'
+      robot.logger.warning 'hubot-rekognition: doesn\'t look like an image was provided'
       msg.send 'Sorry - it doesn\'t look like you gave me an image to look at.'
 
   sendRobotResponse = (msg, title, image, link) ->
@@ -57,10 +57,10 @@ module.exports = (robot) ->
       encoding: null
     request.get url, requestHeaders, (err, res, body) ->
       if err || res.statusCode != 200
-        robot.logger.warning "could not successfully fetch the image; res.statusCode: #{res.statusCode}, err: #{err}"
+        robot.logger.warning "hubot-rekognition: could not successfully fetch the image; res.statusCode: #{res.statusCode}, err: #{err}"
         msg.send "Something bad happened... I was not able to successfully fetch the image..."
       else
-        robot.logger.debug "Uploading file: #{body.length} bytes, content-type[#{res.headers['content-type']}]"
+        robot.logger.debug "hubot-rekognition: uploading file: #{body.length} bytes, content-type[#{res.headers['content-type']}]"
         uploadToS3(msg, ext, body, body.length, res.headers['content-type'])
 
   callRekog = (msg, filename) ->
@@ -80,6 +80,7 @@ module.exports = (robot) ->
     })
     rekog.detectLabels rekogParams, (err, data) ->
       if err
+        robot.logger.error "hubot-rekognition: #{err}\nrekogParams are: #{require('util').inspect(rekogParams)}"
         msg.send "Something bad happened... Although I was able to receive the image, I'm blind to it..."
       else
         labelArray = []
@@ -108,10 +109,10 @@ module.exports = (robot) ->
     req = client.put(filename, headers)
     req.on 'response', (res) ->
       if (200 == res.statusCode)
-        robot.logger.debug "file successfully uploaded here: #{client.https(filename)}"
+        robot.logger.debug "hubot-rekognition: file successfully uploaded here: #{client.https(filename)}"
         callRekog msg, filename
       else
-        robot.logger.debug res
-        robot.logger.error "Upload Error Code: #{res.statusCode}"
+        robot.logger.debug "hubot-rekognition: #{res}"
+        robot.logger.error "hubot-rekognition: upload error - res.statusCode: #{res.statusCode}"
         sendRobotResponse msg, title, '[Upload Error]', link
     req.end(content)
