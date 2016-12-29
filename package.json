@@ -1,7 +1,7 @@
 {
   "name": "hubot-rekognition",
   "description": "Give Hubot an image and it'll tell you what it sees in the image.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Mike Lanyon",
     "email": "lanyonm@gmail.com",
