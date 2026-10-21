@@ -1,4 +1,8 @@
-# hubot-rekognition [![Build Status](https://travis-ci.org/lanyonm/hubot-rekognition.svg?branch=master)](https://travis-ci.org/lanyonm/hubot-rekognition)
+# hubot-rekognition
+-----------
+> [!WARNING]
+> **This project is no longer maintained** and has been archived. It was last updated in 2016 and targets Hubot 2.x. Its dependencies are out of date and have known vulnerabilities: AWS SDK for JavaScript v2 is past end-of-support, and `request` and `knox` are deprecated. It's kept for reference only.
+
 A hubot script that will run an image through the [AWS Rekognition](https://aws.amazon.com/rekognition/) detectLabels function.
 
 See [`src/rekognition.coffee`](src/rekognition.coffee) for full documentation.
